@@ -72,3 +72,37 @@ form #add-notes:hover{
 section{
     padding: 0.25rem 1rem;
 } 
+
+.note{
+    margin: 0.5rem 0;
+background-color: #eee;
+padding: 1rem;
+}
+
+.note button{
+    font-size: 1rem;
+    width: 5rem;
+    border-radius: 0.3rem;
+    padding: 0.1rem;
+    margin-top: 0.5rem;
+    color: #eee;
+    border: 2px solid transparent;
+    transition: all 0.3s;
+}
+.note .edit{
+    background-color: var(--color-primary);
+}
+.note .edit:hover
+{
+    background-color: #eee;
+    color: var(--color-primary);
+    border-color: var(--color-primary);
+}
+.note .delete{
+    background-color: var(--color-secondary);
+}
+.note .delete:hover{
+    background-color: #eee;
+    color: var(--color-secondary);
+    border-color: var(--color-secondary);
+}
