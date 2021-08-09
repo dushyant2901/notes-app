@@ -4,6 +4,9 @@ const notesText = document.getElementById("notes-text");
 const notesContainer = document.querySelector(".notes-container");
 const myNoteDiv = document.querySelector(".note");
 
+const EDIT = "edit";
+const DELETE = "delete";
+let myNotes;
 
 addBtn.addEventListener("click", addNote);
 //myNoteDiv.addEventListener("click", editOrDelete);
@@ -41,11 +44,11 @@ function validateInput() {
     notesContainer.innerHTML = str;
 }*/
 function noteDiv() {
-    getNotes();
+    //getNotes();
     let str = "";
     myNotes.forEach((note, index) => {
-     
-        let noteu = ` <div class="note">
+
+        let noteu = ` <div class="note" id="${index}">
     <p class="note-counter">Note:${index + 1}</p>
     <h3 class="note-heading">${note.title}</h3>
     <p class="note-text">${note.text}</p>
@@ -72,24 +75,46 @@ function getNotes() {
 function checkNoteStorage(notes) {
 
     if (notes == null) {
-        myNotes = [];
+        return myNotes = [];
     } else {
-        myNotes = JSON.parse(notes);
+        return myNotes = JSON.parse(notes);
+
     }
 }
 
-function editOrDelete(event) { 
-    console.log("jj")
-    let toEditOrDel=event.target
-    console.log(toEditOrDel)
+function editOrDelete(event) {
+    //  getNotes()
+
+    let editOrDel = event.target.parentNode
+    let toEditOrDel = event.target.classList[0]
+    if (toEditOrDel == DELETE) {
+        deleteNote(editOrDel)
+    }
+    if (toEditOrDel == EDIT) {
+        editNote()
+    }
+
 }
 
-function editNote() { }
+function editNote() {
+    console.log("ll")
+}
 
-function deleteNote() { }
+function deleteNote(item) {
+    console.log(item.id)
+    //  event.target.parentNode.remove() this will only remove it from dom not from storage
+    //  console.log(JSON.parse(notes))
+
+
+    myNotes.splice(item.id, 1)
+
+    localStorage.setItem("notes", JSON.stringify(myNotes));
+    updateUi()
+
+}
 
 function updateUi() {
-    //getNotes()
+    getNotes()
     noteDiv()
 
 
@@ -98,7 +123,7 @@ function updateUi() {
 updateUi()
 
 function setNotes() {
-    getNotes();
+    //getNotes();
     // checkNoteStorage() nno need of this as we are already passing it in getnotes
     let myNoteObj = {
         title: notesTitle.value,
