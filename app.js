@@ -6,8 +6,8 @@ const myNoteDiv = document.querySelector(".note");
 
 const EDIT = "edit";
 const DELETE = "delete";
-let myNotes;
 
+window.addEventListener("DOMContentLoaded",getNotes)
 addBtn.addEventListener("click", addNote);
 //myNoteDiv.addEventListener("click", editOrDelete);
 notesContainer.addEventListener("click", editOrDelete);
@@ -17,34 +17,55 @@ function addNote(e) {
     validateInput();
 
     clearInputs([notesTitle, notesText]);
-    updateUi()
+   // updateUi() 1
+   getNotes()
 }
 
 function validateInput() {
     if (!notesText.value || !notesTitle.value) {
         alert("Notes Title and Text can not be blank");
     } else {
-        noteDiv(notesTitle, notesText);
-        getNotes();
+        //noteDiv(notesTitle, notesText);
+        //getNotes();
         setNotes();
     }
 }
 
-/*function noteDiv(title, text) {
-    let str = "";
-    
-    let note = ` <div class="note">
-    <p class="note-counter">Note-1</p>
-    <h3 class="note-heading">${title.value}</h3>
-    <p class="note-text">${text.value}</p>
-    <button class="edit">Edit</button>
-    <button class="delete">Delete</button>
-</div>`;
-    str = str + note;
-    notesContainer.innerHTML = str;
-}*/
-function noteDiv() {
+function clearInputs(inputs) {
+    inputs.forEach((input) => {
+        input.value = "";
+    });
+}
+
+function setNotes() {
     //getNotes();
+    // checkNoteStorage() nno need of this as we are already passing it in getnotes
+    let myNoteObj = {
+        title: notesTitle.value,
+        text: notesText.value,
+    };
+    myNotes.push(myNoteObj);
+
+    localStorage.setItem("notes", JSON.stringify(myNotes));
+}
+function getNotes() {
+    let notes = localStorage.getItem("notes");
+
+    checkNoteStorage(notes);
+    noteDiv()
+}
+function checkNoteStorage(notes) {
+
+    if (notes == null) {
+        return myNotes = [];
+    } else {
+        return myNotes = JSON.parse(notes);
+
+    }
+}
+
+function noteDiv() {
+    //getNotes();--no need of this as this will only work if there is mynotes as we are calling this in getnotes func
     let str = "";
     myNotes.forEach((note, index) => {
 
@@ -60,27 +81,25 @@ function noteDiv() {
     notesContainer.innerHTML = str
 }
 
-function clearInputs(inputs) {
-    inputs.forEach((input) => {
-        input.value = "";
-    });
-}
 
-function getNotes() {
-    let notes = localStorage.getItem("notes");
 
-    checkNoteStorage(notes);
-}
+/*function noteDiv(title, text) {
+    let str = "";
+    
+    let note = ` <div class="note">
+    <p class="note-counter">Note-1</p>
+    <h3 class="note-heading">${title.value}</h3>
+    <p class="note-text">${text.value}</p>
+    <button class="edit">Edit</button>
+    <button class="delete">Delete</button>
+</div>`;
+    str = str + note;
+    notesContainer.innerHTML = str;
+}*/
 
-function checkNoteStorage(notes) {
 
-    if (notes == null) {
-        return myNotes = [];
-    } else {
-        return myNotes = JSON.parse(notes);
 
-    }
-}
+
 
 function editOrDelete(event) {
     //  getNotes()
@@ -91,13 +110,19 @@ function editOrDelete(event) {
         deleteNote(editOrDel)
     }
     if (toEditOrDel == EDIT) {
-        editNote()
+        editNote(editOrDel)
     }
 
 }
 
-function editNote() {
-    console.log("ll")
+function editNote(item) {
+    if (!notesTitle.value && !notesText.value) {
+        let data = myNotes[item.id]
+        notesText.value = data.text
+        notesTitle.value = data.title
+
+        deleteNote(item)
+    } else { console.log("k") }
 }
 
 function deleteNote(item) {
@@ -109,27 +134,14 @@ function deleteNote(item) {
     myNotes.splice(item.id, 1)
 
     localStorage.setItem("notes", JSON.stringify(myNotes));
-    updateUi()
+   // updateUi() 1
+   getNotes()
 
 }
 
-function updateUi() {
+/*function updateUi() {
     getNotes()
-    noteDiv()
+    // noteDiv()}
+updateUi()*/
 
 
-
-}
-updateUi()
-
-function setNotes() {
-    //getNotes();
-    // checkNoteStorage() nno need of this as we are already passing it in getnotes
-    let myNoteObj = {
-        title: notesTitle.value,
-        text: notesText.value,
-    };
-    myNotes.push(myNoteObj);
-
-    localStorage.setItem("notes", JSON.stringify(myNotes));
-}
