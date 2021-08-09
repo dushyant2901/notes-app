@@ -3,14 +3,17 @@ const notesTitle = document.getElementById("notes-title");
 const notesText = document.getElementById("notes-text");
 const notesContainer = document.querySelector(".notes-container");
 const myNoteDiv = document.querySelector(".note");
+console.log(myNoteDiv)
 
 addBtn.addEventListener("click", addNote);
+//myNoteDiv.addEventListener("click", editOrDelete);
 
 function addNote(e) {
     e.preventDefault();
     validateInput();
 
     clearInputs([notesTitle, notesText]);
+    updateUi()
 }
 
 function validateInput() {
@@ -40,6 +43,7 @@ function noteDiv() {
     getNotes();
     let str = "";
     myNotes.forEach((note, index) => {
+     
         let noteu = ` <div class="note">
     <p class="note-counter">Note:${index + 1}</p>
     <h3 class="note-heading">${note.title}</h3>
@@ -74,8 +78,9 @@ function checkNoteStorage(notes) {
 }
 
 function editOrDelete(event) { 
+    console.log("jj")
     let toEditOrDel=event.target
-    if()
+    console.log(toEditOrDel)
 }
 
 function editNote() { }
