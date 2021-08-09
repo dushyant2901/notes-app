@@ -3,10 +3,11 @@ const notesTitle = document.getElementById("notes-title");
 const notesText = document.getElementById("notes-text");
 const notesContainer = document.querySelector(".notes-container");
 const myNoteDiv = document.querySelector(".note");
-console.log(myNoteDiv)
+
 
 addBtn.addEventListener("click", addNote);
 //myNoteDiv.addEventListener("click", editOrDelete);
+notesContainer.addEventListener("click", editOrDelete);
 
 function addNote(e) {
     e.preventDefault();
